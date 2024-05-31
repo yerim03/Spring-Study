@@ -1,15 +1,31 @@
 package hello.core.order;
 
 import hello.core.discount.DiscountPolicy;
-import hello.core.discount.FixDiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
 import hello.core.member.MemoryMemberRepository;
 
 public class OrderServiceImpl implements OrderService{
 
-    private final MemberRepository memberRepository = new MemoryMemberRepository();
-    private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
+    private final MemberRepository memberRepository ;
+    private final DiscountPolicy discountPolicy;  //인터페이스에만 의존하도록 설계와 코드 변경
+
+    //생성자 주입
+    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }
+
+
+/*
+이렇게 하면 DIP, OCP 위반
+OrderServiceImpl가 DiscountPolicy(인터페이스)와 FixDiscountPolicy(구현체) 둘 다에 의존하고 있다. -> DIP 위반
+FixDiscountPolicy 에서 RateDiscountPolicy로 변경 시 OrderServiceImpl의 코드도 함께 변경해야 한다 -> OCP 위반
+
+//    private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
+//    private final DiscountPolicy discountPolicy = new RateDiscountPolicy();
+*/
+
 
     @Override
     public Order CreateOrder(Long memberId, String itemName, int itemPrice) {
