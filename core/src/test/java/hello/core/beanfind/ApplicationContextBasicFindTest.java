@@ -45,7 +45,6 @@ public class ApplicationContextBasicFindTest {
     @DisplayName("빈 이름으로 조회X")
     void findBeanByNameX() {
         //ac.getBean("xxxxx", MemberService.class);
-        MemberService xxxxx = ac.getBean("xxxxx", MemberService.class);
         assertThrows(NoSuchBeanDefinitionException.class,
                 () -> ac.getBean("xxxxx", MemberService.class));    //람다식의 로직을 실행했을 때, 오른쪽의 예외가 발생하면 성공, 발생하지 않으면 실패
     }

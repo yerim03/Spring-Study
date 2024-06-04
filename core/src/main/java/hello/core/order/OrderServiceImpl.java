@@ -39,4 +39,9 @@ FixDiscountPolicy 에서 RateDiscountPolicy로 변경 시 OrderServiceImpl의 �
 
         return new Order(memberId, itemName, itemPrice, discountPrice);
     }
+
+    //테스트 용도
+    public MemberRepository getMemberRepository() {
+        return memberRepository;
+    }
 }

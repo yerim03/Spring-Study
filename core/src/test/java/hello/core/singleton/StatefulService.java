@@ -1,0 +1,17 @@
+package hello.core.singleton;
+
+public class StatefulService {
+
+//    private int price;  //상태를 유지하는 필드
+
+    //stateless 로 설계하기 위해 void -> int 로 변경하고 return price
+    public int order(String name, int price) {
+        System.out.println("name = " + name + " price = " + price);
+//        this.price = price; //여기가 문제!
+        return price;
+    }
+
+//    public int getPrice() {
+//        return price;
+//    }
+}
