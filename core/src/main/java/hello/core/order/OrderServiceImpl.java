@@ -4,14 +4,16 @@ import hello.core.discount.DiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
 import hello.core.member.MemoryMemberRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
 public class OrderServiceImpl implements OrderService{
 
-    private final MemberRepository memberRepository ;
-    private final DiscountPolicy discountPolicy;  //인터페이스에만 의존하도록 설계와 코드 변경
+    private final MemberRepository memberRepository;
+    private final DiscountPolicy discountPolicy;
 
     //생성자 주입
     @Autowired
@@ -19,7 +21,6 @@ public class OrderServiceImpl implements OrderService{
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
     }
-
 
 /*
 이렇게 하면 DIP, OCP 위반
@@ -30,9 +31,8 @@ FixDiscountPolicy 에서 RateDiscountPolicy로 변경 시 OrderServiceImpl의 �
 //    private final DiscountPolicy discountPolicy = new RateDiscountPolicy();
 */
 
-
     @Override
-    public Order CreateOrder(Long memberId, String itemName, int itemPrice) {
+    public Order createOrder(Long memberId, String itemName, int itemPrice) {
         Member member = memberRepository.findById(memberId);    //주문 회원 정보 조회
         int discountPrice = discountPolicy.discount(member, itemPrice); //할인금액
         /*
